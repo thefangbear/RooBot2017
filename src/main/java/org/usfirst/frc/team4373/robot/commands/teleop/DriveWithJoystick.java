@@ -49,8 +49,8 @@ public class DriveWithJoystick extends CommandBase {
             driveTrain.setRight(right);
             driveTrain.setLeft(left);
         } else { // Just twist
-            driveTrain.setRight(twistAxis / 2);
-            driveTrain.setLeft(-twistAxis / 2);
+            driveTrain.setRight(-twistAxis / 2);
+            driveTrain.setLeft(twistAxis / 2);
         }
         driveTrain.setMiddle(horizontalAxis);
     }
