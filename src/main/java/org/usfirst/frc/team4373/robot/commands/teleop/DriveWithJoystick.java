@@ -16,7 +16,10 @@ import org.usfirst.frc.team4373.robot.subsystems.DriveTrain;
  * It sets outputs based on joystick axes.
  * @author Henry Pitcairn
  */
-public class DriveWithJoystick extends CommandBase {
+public class DriveWithJoystick extends PIDCommand {
+    private static double kP = 0.1;
+    private static double kI = 0.0;
+    private static double kD = 0.0;
 
     private DriveTrain driveTrain;
     private RooJoystick joystick;
@@ -25,6 +28,7 @@ public class DriveWithJoystick extends CommandBase {
      * Constructor for DriveWithJoystick.
      */
     public DriveWithJoystick() {
+        super("DriveWithJoystick", kP, kI, kD);
         requires(DriveTrain.getDriveTrain());
         driveTrain = DriveTrain.getDriveTrain();
         joystick = OI.getOI().getDriveJoystick();
@@ -72,5 +76,15 @@ public class DriveWithJoystick extends CommandBase {
     @Override
     protected void interrupted() {
         this.driveTrain.setBoth(0);
+    }
+
+    @Override
+    protected double returnPIDInput() {
+        return 0;
+    }
+
+    @Override
+    protected void usePIDOutput(double output) {
+
     }
 }
