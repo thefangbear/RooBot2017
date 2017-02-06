@@ -15,7 +15,8 @@ public class DriveTrain extends Subsystem {
     private CANTalon left2;
     private CANTalon right1;
     private CANTalon right2;
-    private CANTalon middle;
+    private CANTalon middle1;
+    private CANTalon middle2;
 
     private static DriveTrain driveTrain = null;
 
@@ -33,18 +34,22 @@ public class DriveTrain extends Subsystem {
         this.left2 = new CANTalon(RobotMap.LEFT_DRIVE_MOTOR_2);
         this.right1 = new CANTalon(RobotMap.RIGHT_DRIVE_MOTOR_1);
         this.right2 = new CANTalon(RobotMap.RIGHT_DRIVE_MOTOR_2);
-        this.middle = new CANTalon(RobotMap.MIDDLE_DRIVE_MOTOR);
+        this.middle1 = new CANTalon(RobotMap.MIDDLE_DRIVE_MOTOR_1);
+        this.middle2 = new CANTalon(RobotMap.MIDDLE_DRIVE_MOTOR_2);
 
         this.left1.enableBrakeMode(true);
         this.left2.enableBrakeMode(true);
         this.right1.enableBrakeMode(true);
         this.right2.enableBrakeMode(true);
-        this.middle.enableBrakeMode(true);
+        this.middle1.enableBrakeMode(true);
+        this.middle2.enableBrakeMode(true);
 
         this.right2.changeControlMode(CANTalon.TalonControlMode.Follower);
         this.right2.set(RobotMap.RIGHT_DRIVE_MOTOR_1);
         this.left2.changeControlMode(CANTalon.TalonControlMode.Follower);
         this.left2.set(RobotMap.LEFT_DRIVE_MOTOR_1);
+        this.middle2.changeControlMode(CANTalon.TalonControlMode.Follower);
+        this.middle2.set(RobotMap.MIDDLE_DRIVE_MOTOR_1);
     }
 
     /**
@@ -54,7 +59,7 @@ public class DriveTrain extends Subsystem {
      */
     public void move(double forward, double right) {
         // TODO: Determine appropriate amount of power to deliver to right/left motors
-        this.middle.set(right);
+        this.middle1.set(right);
     }
 
     /**
@@ -79,7 +84,7 @@ public class DriveTrain extends Subsystem {
      * @param power The power to allocate to the middle motor from -1 (left) to 1 (right).
      */
     public void setMiddle(double power) {
-        this.middle.set(power);
+        this.middle1.set(power);
     }
 
     /**

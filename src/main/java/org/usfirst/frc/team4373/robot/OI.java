@@ -17,11 +17,12 @@ public class OI {
     }
 
     private RooJoystick driveJoystick;
-    private ADXRS450_Gyro gyro;
+    private ADXRS450_Gyro
+            gyro;
 
     private OI() {
         this.driveJoystick = new RooJoystick(RobotMap.JOYSTICK_PORT, new PiecewiseFilter2());
-        this.gyro = new ADXRS450_Gyro();
+        // this.gyro = new ADXRS450_Gyro();
     }
 
     public RooJoystick getDriveJoystick() {
