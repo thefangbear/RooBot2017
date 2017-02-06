@@ -34,6 +34,7 @@ public class Robot extends IterativeRobot {
     @Override
     public  void teleopPeriodic() {
         Scheduler.getInstance().run();
+        SmartDashboard.putNumber("Gyro", OI.getOI().getGyro().getAngle());
     }
     
     public String toString() {

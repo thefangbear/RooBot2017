@@ -22,7 +22,7 @@ public class OI {
 
     private OI() {
         this.driveJoystick = new RooJoystick(RobotMap.JOYSTICK_PORT, new PiecewiseFilter2());
-        // this.gyro = new ADXRS450_Gyro();
+        this.gyro = new ADXRS450_Gyro();
     }
 
     public RooJoystick getDriveJoystick() {
