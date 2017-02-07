@@ -37,7 +37,7 @@ public class DriveWithJoystick extends PIDCommand {
 
     @Override
     protected void execute() {
-        double twistAxis = this.joystick.getAxis(RobotMap.JOYSTICK_TWIST_AXIS);
+        double twistAxis = this.joystick.getAxis(RobotMap.JOYSTICK_TWIST_AXIS) / 3; // Turn more slowly
         double horizontalAxis = this.joystick.getAxis(RobotMap.JOYSTICK_HORIZONTAL_AXIS);
         double forwardAxis = -this.joystick.getAxis(RobotMap.JOYSTICK_FORWARD_AXIS);
         if (twistAxis == 0 && forwardAxis != 0) { // Just forward
@@ -63,8 +63,8 @@ public class DriveWithJoystick extends PIDCommand {
             driveTrain.setLeft(left);
         } else if (twistAxis != 0 && forwardAxis == 0) { // Just twist
             OI.getOI().getGyro().reset();
-            driveTrain.setRight(-twistAxis / 2);
-            driveTrain.setLeft(twistAxis / 2);
+            driveTrain.setRight(-twistAxis);
+            driveTrain.setLeft(twistAxis);
         } else { // Hold straight
             driveTrain.setRight(-pidOutput);
             driveTrain.setLeft(pidOutput);
