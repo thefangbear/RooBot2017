@@ -55,9 +55,9 @@ public class DriveWithJoystick extends PIDCommand {
             double right = forwardAxis;
             double left = forwardAxis;
             if (twistAxis > 0) {
-                left -= twistAxis;
+                right -= twistAxis;
             } else if (twistAxis < 0) {
-                right -= Math.abs(twistAxis);
+                left -= Math.abs(twistAxis);
             }
             driveTrain.setRight(right);
             driveTrain.setLeft(left);
