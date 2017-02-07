@@ -32,4 +32,9 @@ public class OI {
     public Gyro getGyro() {
         return gyro;
     }
+
+    public double getAngleRelative() {
+        double angle = getGyro().getAngle();
+        return Math.signum(angle) * (Math.abs(angle) % 180);
+    }
 }
