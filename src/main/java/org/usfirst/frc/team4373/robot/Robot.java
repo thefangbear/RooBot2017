@@ -1,7 +1,6 @@
 package org.usfirst.frc.team4373.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team4373.robot.subsystems.DriveTrain;
@@ -13,16 +12,19 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void robotInit() {
+        OI.getOI().getGyro().calibrate();
         DriveTrain.getDriveTrain();
     }
 
     @Override
     public void teleopInit() {
+        OI.getOI().getGyro().reset();
         super.teleopInit();
     }
 
     @Override
     public void autonomousInit() {
+        OI.getOI().getGyro().reset();
         super.autonomousInit();
     }
 
