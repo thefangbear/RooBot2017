@@ -12,6 +12,7 @@ public class RobotMap {
 
     // Sensor ports
     public static final int JOYSTICK_PORT = 0;
+    public static final int GYRO_CHANNEL = 0;
 
     // Motor ports
     public static final int LEFT_DRIVE_MOTOR_1 = 4;
