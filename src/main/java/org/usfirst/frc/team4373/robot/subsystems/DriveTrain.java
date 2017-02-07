@@ -37,6 +37,13 @@ public class DriveTrain extends Subsystem {
         this.middle1 = new CANTalon(RobotMap.MIDDLE_DRIVE_MOTOR_1);
         this.middle2 = new CANTalon(RobotMap.MIDDLE_DRIVE_MOTOR_2);
 
+        this.right1.enableBrakeMode(true);
+        this.right2.enableBrakeMode(true);
+        this.left1.enableBrakeMode(true);
+        this.left2.enableBrakeMode(true);
+        this.middle1.enableBrakeMode(true);
+        this.middle2.enableBrakeMode(true);
+
         this.left1.enableBrakeMode(true);
         this.left2.enableBrakeMode(true);
         this.right1.enableBrakeMode(true);
