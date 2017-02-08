@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4373.robot.commands.teleop;
 
 import edu.wpi.first.wpilibj.command.PIDCommand;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team4373.robot.OI;
 import org.usfirst.frc.team4373.robot.RobotMap;
 import org.usfirst.frc.team4373.robot.input.hid.RooJoystick;
@@ -12,11 +13,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * This command handles operator control of the drive train subsystem.
  * It sets outputs based on joystick axes.
  * @author Henry Pitcairn
+ * @author aaplmath
  */
 public class DriveWithJoystick extends PIDCommand {
-    private static double kP = 0.00555D;
-    private static double kI = 0.001D;
-    private static double kD = 0.0D;
+    private static double kP = 0.0d;
+    private static double kI = 0.0d;
+    private static double kD = 0.0d;
 
     private DriveTrain driveTrain;
     private RooJoystick joystick;
@@ -86,6 +88,14 @@ public class DriveWithJoystick extends PIDCommand {
     protected void initialize() {
         this.setSetpoint(0);
         this.setInputRange(-180, 180);
+        this.getPIDController().setOutputRange(-1, 1);
+
+        kP = SmartDashboard.getNumber("kP", 0.0d);
+        kI = SmartDashboard.getNumber("kI", 0.0d);
+        kD = SmartDashboard.getNumber("kD", 0.0d);
+
+        this.getPIDController().setPID(kP, kI, kD);
+
         cooldown.set(false);
     }
 
@@ -116,9 +126,8 @@ public class DriveWithJoystick extends PIDCommand {
         if (cooldown.get()) {
             this.pidOutput = 0;
         } else {
-            if (Math.abs(pidOutput) > 1) {
-                this.pidOutput = Math.signum(pidOutput);
-            }
+            this.pidOutput = pidOutput;
+            SmartDashboard.putNumber("PID Output", this.pidOutput);
         }
     }
 }
