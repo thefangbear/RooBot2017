@@ -14,9 +14,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author Henry Pitcairn
  */
 public class DriveWithJoystick extends PIDCommand {
-    private static double kP = 0.01;
-    private static double kI = 0.000;
-    private static double kD = 0.01;
+    private static double kP = 0.00555D;
+    private static double kI = 0.001D;
+    private static double kD = 0.0D;
 
     private DriveTrain driveTrain;
     private RooJoystick joystick;
@@ -116,7 +116,9 @@ public class DriveWithJoystick extends PIDCommand {
         if (cooldown.get()) {
             this.pidOutput = 0;
         } else {
-            this.pidOutput = pidOutput;
+            if (Math.abs(pidOutput) > 1) {
+                this.pidOutput = Math.signum(pidOutput);
+            }
         }
     }
 }
