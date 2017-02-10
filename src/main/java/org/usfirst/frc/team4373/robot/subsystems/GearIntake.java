@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4373.robot.subsystems;
 
 import com.ctre.CANTalon;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team4373.robot.RobotMap;
 
@@ -9,7 +10,7 @@ import org.usfirst.frc.team4373.robot.RobotMap;
  * @author aaplmath
  */
 public class GearIntake extends Subsystem {
-    private CANTalon gearIntakeTalon;
+    private Servo gearIntakeServo;
 
     private static GearIntake gearIntake = null;
 
@@ -19,8 +20,7 @@ public class GearIntake extends Subsystem {
     }
 
     private GearIntake() {
-        gearIntakeTalon = new CANTalon(RobotMap.GEAR_INTAKE_MOTOR);
-        gearIntakeTalon.changeControlMode(CANTalon.TalonControlMode.Position);
+        gearIntakeServo = new Servo(RobotMap.GEAR_INTAKE_MOTOR);
     }
 
     /**
@@ -28,7 +28,7 @@ public class GearIntake extends Subsystem {
      * @param degrees The angle to which to turn.
      */
     public void turnToRotation(int degrees) {
-        // TODO: Implementation
+        gearIntakeServo.setAngle(degrees);
     }
 
     @Override
