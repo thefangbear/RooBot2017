@@ -22,5 +22,5 @@ public class RobotMap {
     public static final int MIDDLE_DRIVE_MOTOR_1 = 6;
     public static final int MIDDLE_DRIVE_MOTOR_2 = 7;
     // TODO: Insert correct gear intake port
-    public static final int GEAR_INTAKE_MOTOR = 10;
+    public static final int GEAR_INTAKE_MOTOR = 9;
 }
