@@ -16,9 +16,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author aaplmath
  */
 public class DriveWithJoystick extends PIDCommand {
-    private static double kP = 0.0d;
-    private static double kI = 0.0d;
-    private static double kD = 0.0d;
+    private static double kP = 0.1000d;
+    private static double kI = 0.0001d;
+    private static double kD = 0.0000d;
 
     private DriveTrain driveTrain;
     private RooJoystick joystick;
@@ -90,10 +90,6 @@ public class DriveWithJoystick extends PIDCommand {
         this.setInputRange(-180, 180);
         this.getPIDController().setOutputRange(-1, 1);
 
-        kP = SmartDashboard.getNumber("kP", 0.0d);
-        kI = SmartDashboard.getNumber("kI", 0.0d);
-        kD = SmartDashboard.getNumber("kD", 0.0d);
-
         this.getPIDController().setPID(kP, kI, kD);
 
         cooldown.set(false);
@@ -106,12 +102,14 @@ public class DriveWithJoystick extends PIDCommand {
 
     @Override
     protected void end() {
+        this.getPIDController().reset();
         this.driveTrain.setBoth(0);
         cooldown.set(false);
     }
 
     @Override
     protected void interrupted() {
+        this.getPIDController().reset();
         this.driveTrain.setBoth(0);
         cooldown.set(false);
     }
