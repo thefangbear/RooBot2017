@@ -9,6 +9,10 @@ import org.usfirst.frc.team4373.robot.subsystems.DriveTrain;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+enum Direction {
+    FORWARD, BACKWARD, RIGHT, LEFT
+}
+
 /**
  * This command handles operator control of the drive train subsystem.
  * It sets outputs based on joystick axes.
@@ -19,6 +23,8 @@ public class DriveWithJoystick extends PIDCommand {
     private static double kP = 0.1000d;
     private static double kI = 0.0001d;
     private static double kD = 0.0000d;
+
+    private Direction forwardDirection;
 
     private DriveTrain driveTrain;
     private RooJoystick joystick;
@@ -45,10 +51,44 @@ public class DriveWithJoystick extends PIDCommand {
         } else {
             OI.getOI().getGyro().reset();
         }
+        if (OI.getOI().getDriveJoystick().getRawButton(1)) {
+            switch (OI.getOI().getDriveJoystick().getPOV()) {
+                case 0:
+                    forwardDirection = Direction.FORWARD;
+                    break;
+                case 90:
+                    forwardDirection = Direction.RIGHT;
+                    break;
+                case 180:
+                    forwardDirection = Direction.BACKWARD;
+                    break;
+                case 270:
+                    forwardDirection = Direction.LEFT;
+                    break;
+            }
+        }
+
         // Turn more slowly
         double twistAxis = this.joystick.getAxis(RobotMap.JOYSTICK_TWIST_AXIS) / 2;
         double horizontalAxis = this.joystick.getAxis(RobotMap.JOYSTICK_HORIZONTAL_AXIS);
         double forwardAxis = -this.joystick.getAxis(RobotMap.JOYSTICK_FORWARD_AXIS);
+
+        switch (forwardDirection) {
+            case BACKWARD:
+                forwardAxis = -forwardAxis;
+                horizontalAxis = -horizontalAxis;
+                twistAxis = -twistAxis;
+                break;
+            case LEFT:
+                twistAxis = -twistAxis;
+                // fall through because left and right need to switch horizontal and vertical
+            case RIGHT:
+                double temp = forwardAxis;
+                forwardAxis = horizontalAxis;
+                horizontalAxis = temp;
+                break;
+        }
+
         if (twistAxis == 0 && forwardAxis != 0) { // Just forward
             double right = forwardAxis;
             double left = forwardAxis;
