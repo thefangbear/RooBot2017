@@ -21,7 +21,30 @@ public class Climber extends Subsystem {
 
     private Climber() {
         climberTalon = new CANTalon(RobotMap.CLIMBER_MOTOR);
-        // TODO: Configure climber motor
+
+        int absolutePosition = climberTalon.getPulseWidthPosition() & 0xFFF; /* mask out the bottom12 bits, we don't care about the wrap arounds */
+        // Use the low level API to set the quad encoder signal
+        climberTalon.setEncPosition(absolutePosition);
+        
+        // Set sensor and sensor direction
+        climberTalon.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);
+        climberTalon.reverseSensor(false);
+
+        // Set peak and nominal outputs—12V means full
+        climberTalon.configNominalOutputVoltage(+0f, -0f);
+        climberTalon.configPeakOutputVoltage(+12f, -12f);
+
+        // Set the allowable closed-loop error—Closed-Loop output will be neutral in this range
+        climberTalon.setAllowableClosedLoopErr(0); // Always servo
+
+        // Set closed loop gains in slot 0
+        climberTalon.setProfile(0);
+
+        // PID config
+        climberTalon.setF(0.0);
+        climberTalon.setP(0.1);
+        climberTalon.setI(0.0);
+        climberTalon.setD(0.0); 
     }
 
     /**
@@ -29,6 +52,7 @@ public class Climber extends Subsystem {
      * @param rotations The number of rotations to complete.
      */
     public void rotate(int rotations) {
+        climberTalon.set(rotations);
 
     }
 
