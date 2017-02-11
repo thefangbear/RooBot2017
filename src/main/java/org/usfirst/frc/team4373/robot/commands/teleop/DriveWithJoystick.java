@@ -9,10 +9,6 @@ import org.usfirst.frc.team4373.robot.subsystems.DriveTrain;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-enum Direction {
-    FORWARD, BACKWARD, RIGHT, LEFT
-}
-
 /**
  * This command handles operator control of the drive train subsystem.
  * It sets outputs based on joystick axes.
@@ -20,6 +16,10 @@ enum Direction {
  * @author aaplmath
  */
 public class DriveWithJoystick extends PIDCommand {
+    public enum Direction {
+        FORWARD, BACKWARD, RIGHT, LEFT
+    }
+
     private static double kP = 0.1000d;
     private static double kI = 0.0001d;
     private static double kD = 0.0000d;
@@ -87,6 +87,31 @@ public class DriveWithJoystick extends PIDCommand {
                 forwardAxis = horizontalAxis;
                 horizontalAxis = temp;
                 break;
+        }
+
+        // "Bumping"
+        if (OI.getOI().getDriveJoystick().getRawButton(5)) {
+            switch (forwardDirection) {
+                case FORWARD:
+                    driveTrain.bumpToDirection(Direction.LEFT);
+                case BACKWARD:
+                    driveTrain.bumpToDirection(Direction.RIGHT);
+                case RIGHT:
+                    driveTrain.bumpToDirection(Direction.BACKWARD);
+                case LEFT:
+                    driveTrain.bumpToDirection(Direction.FORWARD);
+            }
+        } else if (OI.getOI().getDriveJoystick().getRawButton(6)) {
+            switch (forwardDirection) {
+                case FORWARD:
+                    driveTrain.bumpToDirection(Direction.RIGHT);
+                case BACKWARD:
+                    driveTrain.bumpToDirection(Direction.LEFT);
+                case RIGHT:
+                    driveTrain.bumpToDirection(Direction.FORWARD);
+                case LEFT:
+                    driveTrain.bumpToDirection(Direction.BACKWARD);
+            }
         }
 
         if (twistAxis == 0 && forwardAxis != 0) { // Just forward
