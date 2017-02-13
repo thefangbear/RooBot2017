@@ -3,13 +3,15 @@ package org.usfirst.frc.team4373.robot.subsystems;
 import com.ctre.CANTalon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team4373.robot.RobotMap;
+import org.usfirst.frc.team4373.robot.commands.teleop.ClimberCommand;
 
 /**
  * Programmatic representation of physical climber components.
  * @author aaplmath
  */
 public class Climber extends Subsystem {
-    private CANTalon climberTalon;
+    private CANTalon climberTalon1;
+    private CANTalon climberTalon2;
 
     private static Climber climber = null;
 
@@ -20,44 +22,41 @@ public class Climber extends Subsystem {
 
 
     private Climber() {
-        climberTalon = new CANTalon(RobotMap.CLIMBER_MOTOR);
+        climberTalon1 = new CANTalon(RobotMap.CLIMBER_MOTOR_1);
+        climberTalon2 = new CANTalon(RobotMap.CLIMBER_MOTOR_2);
 
-        int absolutePosition = climberTalon.getPulseWidthPosition() & 0xFFF; /* mask out the bottom12 bits, we don't care about the wrap arounds */
-        // Use the low level API to set the quad encoder signal
-        climberTalon.setEncPosition(absolutePosition);
-        
-        // Set sensor and sensor direction
-        climberTalon.setFeedbackDevice(CANTalon.FeedbackDevice.CtreMagEncoder_Relative);
-        climberTalon.reverseSensor(false);
+        this.climberTalon1.enableBrakeMode(false);
+        this.climberTalon2.enableBrakeMode(false);
 
-        // Set peak and nominal outputs—12V means full
-        climberTalon.configNominalOutputVoltage(+0f, -0f);
-        climberTalon.configPeakOutputVoltage(+12f, -12f);
-
-        // Set the allowable closed-loop error—Closed-Loop output will be neutral in this range
-        climberTalon.setAllowableClosedLoopErr(0); // Always servo
-
-        // Set closed loop gains in slot 0
-        climberTalon.setProfile(0);
-
-        // PID config
-        climberTalon.setF(0.0);
-        climberTalon.setP(0.1);
-        climberTalon.setI(0.0);
-        climberTalon.setD(0.0); 
+        this.climberTalon2.changeControlMode(CANTalon.TalonControlMode.Follower);
+        this.climberTalon2.set(RobotMap.CLIMBER_MOTOR_1);
     }
 
     /**
-     * Rotate the climber a certain number of times.
-     * @param rotations The number of rotations to complete.
+     * Start the motor spinning forward.
+     * @param power The power, from 0 to 1, to supply to the motor.
      */
-    public void rotate(int rotations) {
-        climberTalon.set(rotations);
+    public void setForward(int power) {
+        climberTalon1.set(power);
+    }
 
+    /**
+     * Start the motor spinning backward.
+     * @param power The power, from 0 to 1, to supply to the motor.
+     */
+    public void setBackward(int power) {
+        climberTalon1.set(-power);
+    }
+
+    /**
+     * Stop the motor.
+     */
+    public void stop() {
+        climberTalon1.set(0);
     }
 
     @Override
     protected void initDefaultCommand() {
-//         setDefaultCommand(new ClimberCommand());
+         setDefaultCommand(new ClimberCommand());
     }
 }
