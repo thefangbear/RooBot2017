@@ -44,13 +44,6 @@ public class DriveTrain extends Subsystem {
         this.middle1.enableBrakeMode(true);
         this.middle2.enableBrakeMode(true);
 
-        this.left1.enableBrakeMode(true);
-        this.left2.enableBrakeMode(true);
-        this.right1.enableBrakeMode(true);
-        this.right2.enableBrakeMode(true);
-        this.middle1.enableBrakeMode(true);
-        this.middle2.enableBrakeMode(true);
-
         this.right2.changeControlMode(CANTalon.TalonControlMode.Follower);
         this.right2.set(RobotMap.RIGHT_DRIVE_MOTOR_1);
         this.left2.changeControlMode(CANTalon.TalonControlMode.Follower);
